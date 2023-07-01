@@ -18,10 +18,10 @@ node {
     try {
         stage('Deliver'){
             docker.image('cdrx/pyinstaller-linux:python2').inside{
-                sh 'pyinstaller --onefile sources/add2vals.py'
+                sh 'pyinstaller - sources/add2vals.py'
             }
         }
-        //echo 'This will run only if successful'
+        echo 'This will run only if successful'
     } catch (exc) {
         echo 'This will run only if failed'
     }
