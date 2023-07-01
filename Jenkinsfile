@@ -24,7 +24,7 @@ node {
         }
         echo 'This will run only if successful'
     } catch (err){
-        echo err.getMessage()
         echo 'This will run only if failed'
+        throw err
     }
 }
