@@ -20,7 +20,7 @@ node {
         env.IMAGE = 'cdrx/pyinstaller-linux:python2'
         dir(env.BUILD_ID) {
             unstash(name: 'compiled-results')
-            sh "docker run --rm --entrypoint='' ${env.IMAGE} 'pyinstaller -F ./sources/add2vals.py'"
+            sh "docker run --rm ${env.IMAGE} 'pyinstaller --onefile ./sources/add2vals.py'"
         }
         archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals"
         sh "docker run --rm -v ${env.VOLUME} ${env.IMAGE} 'rm -rf build dist'"
