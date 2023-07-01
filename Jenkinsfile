@@ -16,7 +16,7 @@ node {
         junit 'test-reports/results.xml'
     }
     stage('Deliver'){
-        env.VOLUME = '${pwd()}/sources:/src'
+        env.VOLUME = '$(pwd)/sources:/src'
         env.IMAGE = 'cdrx/pyinstaller-linux:python2'
         dir(env.BUILD_ID) {
             unstash(name: 'compiled-results')
