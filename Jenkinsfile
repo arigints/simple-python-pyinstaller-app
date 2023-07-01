@@ -17,7 +17,7 @@ node {
 
     try {
         stage('Deliver'){
-            docker.image('cdrx/pyinstaller-linux:python2').inside( -v $(pwd)/sources:/src)  {
+            docker.image('cdrx/pyinstaller-linux:python2').inside('-v $(pwd)/sources:/src')  {
                 sh 'pyinstaller -F ./sources/add2vals.py'
             }
         }
