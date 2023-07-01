@@ -17,8 +17,14 @@ node {
 
     try {
         stage('Deliver'){
-            docker.image('cdrx/pyinstaller-linux:python2').inside{
-                sh 'pyinstaller -F ./sources/add2vals.py'
+            environment {
+                VOLUME = '$(pwd)/sources:/src'
+                IMAGE = 'cdrx/pyinstaller-linux:python2'
+            }
+            steps {
+                dir(path: env.BUILD_ID){
+                    sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'"
+                }
             }
         }
         echo 'This will run only if successful'
