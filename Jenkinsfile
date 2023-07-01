@@ -14,15 +14,15 @@ node {
     } finally {
         junit 'test-reports/results.xml'
     }
-
-    try {
-        stage('Deliver'){
-            docker.image('cdrx/pyinstaller-linux:python2').inside('-v $(pwd)/sources:/src')  {
-                sh 'pyinstaller -F ./sources/add2vals.py'
-            }
+    stage('Deliver'){
+        env.VOLUME = '${pwd()}/sources:/src'
+        env.IMAGE = 'cdrx/pyinstaller-linux:python2'
+        dir(env.BUILD_ID) {
+            unstash(name: 'compiled-results')
+            sh "docker run --rm -v ${env.VOLUME} ${env.IMAGE} 'pyinstaller -F add2vals.py"
         }
-        echo 'This will run only if successful'
-    } catch (exc) {
-        echo 'This will run only if failed'
+        archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals"
+        sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
     }
 }
+      
